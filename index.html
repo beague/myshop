@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>myshop</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>myshop</h1>
+  <div>
+    <a href="login.html">Connexion</a>
+    <a href="register.html">Inscription</a>
+    <a href="cart.html">Panier</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="slides">
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1350&q=80');">
+      <div class="slide-content"><h2>Découvrez le luxe</h2><button onclick="scrollToProducts()">Voir produits</button></div>
+    </div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1581091215361-3c593a5a57ab?auto=format&fit=crop&w=1350&q=80');">
+      <div class="slide-content"><h2>Collection exclusive</h2><button onclick="scrollToProducts()">Voir produits</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="products-container"></section>
+
+<script src="script.js"></script>
+<script>
+function scrollToProducts(){
+    document.querySelector('.products-container').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

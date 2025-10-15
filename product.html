@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produit - LuxShop</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>LuxShop</h1>
+  <div>
+    <a href="index.html">Accueil</a>
+    <a href="cart.html">Panier</a>
+  </div>
+</header>
+
+<section class="product-detail">
+  <div class="product-images">
+    <img id="main-image" src="" alt="Produit">
+    <div class="thumbnails" id="thumbnails"></div>
+  </div>
+
+  <div class="product-info">
+    <h2 id="product-name"></h2>
+    <p id="product-description"></p>
+    <p id="product-price"></p>
+
+    <div class="variants">
+      <label for="color-select">Couleur :</label>
+      <select id="color-select"></select>
+    </div>
+
+    <button id="add-cart">Ajouter au panier</button>
+  </div>
+</section>
+
+<script src="script.js"></script>
+<script>
+const productId = 1; // Exemple : produit 1, changez selon le produit à afficher
+
+async function loadProduct(id){
+    const res = await fetch('/api/products');
+    const products = await res.json();
+    const p = products.find(prod => prod.id === id);
+    if(!p) return;
+
+    // Infos produit
+    document.getElementById('main-image').src = p.image;
+    document.getElementById('product-name').innerText = p.name;
+    document.getElementById('product-description').innerText = p.description;
+    document.getElementById('product-price').innerText = `Prix: €${p.price}`;
+
+    // Variantes de couleur simulées
+    const colors = ['Noir','Blanc','Rouge','Bleu'];
+    const select = document.getElementById('color-select');
+    select.innerHTML = '';
+    colors.forEach(c=>{
+        const opt = document.createElement('option');
+        opt.value = c; opt.innerText = c;
+        select.appendChild(opt);
+    });
+
+    // Miniatures (simples pour le moment, toutes identiques)
+    const thumbnails = document.getElementById('thumbnails');
+    thumbnails.innerHTML = '';
+    for(let i=0;i<4;i++){
+        const thumb = document.createElement('img');
+        thumb.src = p.image;
+        thumb.onclick = ()=>{document.getElementById('main-image').src = thumb.src;}
+        thumbnails.appendChild(thumb);
+    }
+
+    // Bouton ajouter au panier
+    document.getElementById('add-cart').onclick = ()=>{
+        const productWithColor = {...p, color: select.value};
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push(productWithColor);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Produit ajouté au panier');
+    }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{ loadProduct(productId); });
+</script>
+
+</body>
+</html>
